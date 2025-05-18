@@ -1,16 +1,20 @@
-# project_app
+# Dawri
 
-A new Flutter project.
+An application for managing and organizing queues aimed at facilitating the waiting process for both customers and employees.
+
+## Overview
+
+The application allows:
+
+- **Employees** to create and manage queues efficiently.
+- **Customers** to reserve their turn and track their waiting status in real-time, without the need to be physically present at the location.
 
 ## Getting Started
 
 This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+### Useful Resources:
 
 - [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
 - [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- [Flutter Documentation](https://docs.flutter.dev/): Tutorials, samples, and API reference.
