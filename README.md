@@ -16,5 +16,5 @@ This project is a starting point for a Flutter application.
 ### Useful Resources:
 
 - [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- [Firebase: use firebase in flutter app](https://firebase.flutter.dev/docs/overview)
 - [Flutter Documentation](https://docs.flutter.dev/): Tutorials, samples, and API reference.
