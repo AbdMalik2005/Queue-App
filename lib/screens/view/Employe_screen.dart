@@ -1,17 +1,12 @@
 import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:project_app/screens/provider/LogouFun.dart';
-import 'package:project_app/screens/provider/Notification.dart';
 import 'package:project_app/widget/Employe_queue_card.dart';
 import 'package:project_app/widget/Field_employe.dart';
 import 'package:project_app/screens/provider/Myalert.dart';
 import 'package:project_app/widget/Not_queue.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:project_app/screens/view/Login.dart';
 import 'package:project_app/widget/ShowLoading.dart';
 
 class EmployeScreen extends StatefulWidget {
@@ -22,21 +17,6 @@ class EmployeScreen extends StatefulWidget {
 }
 
 class _EmployeScreenState extends State<EmployeScreen> {
-  @override
-void initState() {
-  super.initState();
-
-  // تشغيل كود غير متزامن بعد التهيئة
-  Future.microtask(() async {
-    // جلب Access Token
-    String accessToken = await getAccessToken();
-    print('Access Token: $accessToken');
-
-    // جلب FCM Token الخاص بالجهاز الحالي
-    String? deviceToken = await FirebaseMessaging.instance.getToken();
-    print('FCM Token: $deviceToken');
-  });
-}
 
   var Queue_name = TextEditingController();
 
@@ -53,7 +33,7 @@ void initState() {
 // دالة انشاء الطابور
   CreateQueue(String name_Q) async {
     try {
-      showLoadingDialog (context);
+      showLoadingDialog(context);
       CollectionReference Queue =
           FirebaseFirestore.instance.collection('Queues');
       await Queue.add({
@@ -79,9 +59,10 @@ void initState() {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
       body: Padding(
-        padding: const EdgeInsets.only(top: 70),
+        padding: const EdgeInsets.only(top: 50),
         child: Container(
           width: double.infinity,
           child: GestureDetector(
@@ -97,13 +78,11 @@ void initState() {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       GestureDetector(
-                        onTap: () {},
-                        child: SvgPicture.asset(
-                          'assets/user-_1_.svg',
-                          height: 35,
-                          color: Color(0xff6B7280),
-                        ),
-                      ),
+                          onTap: () {},
+                          child: Image.asset(
+                            "assets/User_fill.png",
+                            width: 60,
+                          )),
                       Text(
                         'Dawri',
                         style: TextStyle(
@@ -111,17 +90,15 @@ void initState() {
                             color: Color(0xff872CD8),
                             fontSize: 55),
                       ),
-                      IconButton(
-                        onPressed: () {
-                          Myalert(context, () => Logout(context),
-                              'Are you sure you want to log out?');
-                        },
-                        icon: Icon(
-                          color: Color(0xff6B7280),
-                          Icons.logout,
-                          size: 40,
-                        ),
-                      ),
+                      GestureDetector(
+                          onTap: () {
+                            Myalert(context, () => Logout(context),
+                                'Are you sure you want to log out?');
+                          },
+                          child: Image.asset(
+                            "assets/Sign_in_squre_fill.png",
+                            width: 60,
+                          )),
                     ],
                   ),
                   SizedBox(
