@@ -28,6 +28,7 @@ class _ClientScreenState extends State<ClientScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.only(top: 50),
         child: Container(
@@ -39,32 +40,27 @@ class _ClientScreenState extends State<ClientScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   GestureDetector(
-                    onTap: () {},
-                    child: SvgPicture.asset(
-                      'assets/user-_1_.svg',
-                      height: 35,
-                      color: Color(0xff6B7280),
-                    ),
+                      onTap: () {},
+                      child: Image.asset(
+                        "assets/User_fill.png",
+                        width: 60,
+                      )),
+                  Text(
+                    'Dawri',
+                    style: TextStyle(
+                        fontFamily: "Myfont",
+                        color: Color(0xff872CD8),
+                        fontSize: 55),
                   ),
-                 Text(
-                      'Dawri',
-                      style: TextStyle(
-                          fontFamily: "Myfont",
-                          color: Color(0xff872CD8),
-                          fontSize: 55),
-                    ),
-                  
-                  IconButton(
-                    onPressed: () {
-                      Myalert(context, () => Logout(context),
-                          'Are you sure you want to log out?');
-                    },
-                    icon: Icon(
-                      color: Color(0xff6B7280),
-                      Icons.logout,
-                      size: 40,
-                    ),
-                  ),
+                  GestureDetector(
+                      onTap: () {
+                        Myalert(context, () => Logout(context),
+                            'Are you sure you want to log out?');
+                      },
+                      child: Image.asset(
+                        "assets/Sign_in_squre_fill.png",
+                        width: 60,
+                      )),
                 ],
               ),
               SizedBox(height: 24.h),
@@ -75,7 +71,7 @@ class _ClientScreenState extends State<ClientScreen> {
                       GestureDetector(
                         onTap: () {
                           if (Queue_code.text.isNotEmpty) {
-                            JoinQeueu(Queue_code.text.trim() , context);
+                            JoinQeueu(Queue_code.text.trim(), context);
                             Queue_code.clear();
                           }
                         },
