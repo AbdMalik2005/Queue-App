@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "148951620722",
+    "project_id": "queueapp-cc500",
+    "storage_bucket": "queueapp-cc500.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:148951620722:android:70ff491e6802c7498a76eb",
+        "android_client_info": {
+          "package_name": "com.example.project_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbSCi4UKLuTj-HZ8yYOmm1CZ7qvNU12Mo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
