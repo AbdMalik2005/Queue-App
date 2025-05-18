@@ -19,9 +19,10 @@ class ListOfClient extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.only(top: 20, left: 20, right: 20),
+          padding: EdgeInsets.only(top: 10, left: 20, right: 20),
           child: Column(
             children: [
               Row(
@@ -48,6 +49,9 @@ class ListOfClient extends StatelessWidget {
                     ),
                   ),
                   Spacer(),
+                  SizedBox(
+                    width: 24,
+                  )
                 ],
               ),
               SizedBox(
@@ -77,7 +81,6 @@ class ListOfClient extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  // Queue_code
                   showQueueInfo(context, Queue_code);
                 },
                 child: CircleAvatar(
