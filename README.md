@@ -11,10 +11,10 @@ The application allows:
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Dawri is a starting point for a Flutter application.
 
 ### Useful Resources:
 
 - [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
 - [Firebase: use firebase in flutter app](https://firebase.flutter.dev/docs/overview)
-- [Flutter Documentation](https://docs.flutter.dev/): Tutorials, samples, and API reference.
+- [Flutter Documentation](https://docs.flutter.dev/)
