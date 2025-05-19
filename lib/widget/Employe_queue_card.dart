@@ -59,6 +59,7 @@ class EmployeQueueCard extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ListOfClient(
+              Queue_name :Queue_name,
                 Queue_code: Queue_code,
                 Current_number: Queue_current_number,
                 Queue_ID: Queue_ID)));
