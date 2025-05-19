@@ -54,11 +54,14 @@ class _Signup_appState extends State<Signup_app> {
 
       // توجيه المستخدم إلى الشاشة المناسبة
       if (selectedstate == 'Employee') {
+          Navigator.of(context).pop(); // إغلاق شاشة التحميل
         Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => Login_app()),
           (route) => false,
         );
+        
       } else {
+          Navigator.of(context).pop(); // إغلاق شاشة التحميل
         Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => Login_app()),
           (route) => false,
@@ -79,8 +82,6 @@ class _Signup_appState extends State<Signup_app> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('حدث خطأ غير متوقع')),
       );
-    } finally {
-      Navigator.of(context).pop(); // إغلاق شاشة التحميل
     }
   }
 
