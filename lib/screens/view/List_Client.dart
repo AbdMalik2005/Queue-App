@@ -3,18 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:project_app/screens/provider/Show_qr.dart';
 import 'package:project_app/widget/Client_info_card.dart';
-import 'package:project_app/widget/Not_queue.dart';
 
 class ListOfClient extends StatelessWidget {
   final String Queue_ID;
   final int Current_number;
   final String Queue_code;
+  final String Queue_name;
 
   const ListOfClient(
       {super.key,
       required this.Queue_ID,
       required this.Current_number,
-      required this.Queue_code});
+      required this.Queue_code,
+      required this.Queue_name});
 
   @override
   Widget build(BuildContext context) {
@@ -55,10 +56,12 @@ class ListOfClient extends StatelessWidget {
                 ],
               ),
               SizedBox(
-                height: 20,
+                height: 8,
               ),
               Text(
-                'Queue Name',
+                Queue_name,
+                overflow: TextOverflow.ellipsis, // تظهر "..."
+                maxLines: 1,
                 style: TextStyle(
                   fontFamily: "Myfont",
                   fontSize: 30,
@@ -67,14 +70,6 @@ class ListOfClient extends StatelessWidget {
               ),
               SizedBox(
                 height: 10,
-              ),
-              Text(
-                'test queue',
-                style: TextStyle(
-                  fontFamily: "Myfont",
-                  fontSize: 20,
-                  color: Color(0xff872CD8),
-                ),
               ),
               SizedBox(
                 height: 10,
@@ -119,6 +114,12 @@ class ListOfClient extends StatelessWidget {
                           .snapshots(),
                       builder:
                           (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
                         if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
                           return Center(
                             child: Column(
