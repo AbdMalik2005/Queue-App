@@ -7,12 +7,11 @@ import 'package:project_app/widget/ShowLoading.dart';
 Future<void> JoinQeueu(String code_qeueu, BuildContext context) async {
   if (code_qeueu.isEmpty) {
     ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Please enter the queue code.")));
+      SnackBar(content: Text("Please enter the queue code.")),
+    );
     print("⚠️ الرجاء إدخال كود الطابور");
     return;
   }
-
-  showLoadingDialog(context); // ✅ عرض دائرة التحميل
 
   try {
     // جلب الطابور باستخدام الكود
@@ -23,10 +22,10 @@ Future<void> JoinQeueu(String code_qeueu, BuildContext context) async {
         .get();
 
     if (queueSnapshot.docs.isEmpty) {
-      Navigator.of(context).pop(); // ❗إغلاق النافذة
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("The queue does not exist.")));
-      print("The queue does not exist.");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("The queue does not exist.")),
+      );
+      print("❌ الطابور غير موجود");
       return;
     }
 
@@ -39,7 +38,7 @@ Future<void> JoinQeueu(String code_qeueu, BuildContext context) async {
     DocumentSnapshot userSnapshot = await userDoc.get();
 
     if (!userSnapshot.exists) {
-      Navigator.of(context).pop();
+      print("❌ المستخدم غير موجود في قاعدة البيانات");
       return;
     }
 
@@ -48,8 +47,10 @@ Future<void> JoinQeueu(String code_qeueu, BuildContext context) async {
     String username = userData['name'];
 
     if (joinedQueues.contains(queueID)) {
-      Navigator.of(context).pop(); // ❗إغلاق النافذة
       print("⚠️ أنت بالفعل منضم إلى هذا الطابور");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("You are already in this queue.")),
+      );
       return;
     }
 
@@ -57,33 +58,26 @@ Future<void> JoinQeueu(String code_qeueu, BuildContext context) async {
         FirebaseFirestore.instance.collection('Queues').doc(queueID);
     CollectionReference clientCollection = queueDoc.collection('Client');
 
-    // ✅ التحقق من إذا كان الطابور فارغ من العملاء
-    var clientsSnapshot = await clientCollection
-        .where(
-          'status',
-          isEqualTo: 'Active',
-        )
-        .get();
+    // التحقق من وجود عملاء حاليًا
+    var clientsSnapshot =
+        await clientCollection.where('status', isEqualTo: 'Active').get();
     bool isQueueEmpty = clientsSnapshot.docs.isEmpty;
 
-    // ✅ تنفيذ المعاملة
+    // تنفيذ المعاملة
     await FirebaseFirestore.instance.runTransaction((trans) async {
       var queueData = await trans.get(queueDoc);
       if (!queueData.exists) return;
 
       var data = queueData.data() as Map<String, dynamic>;
 
-      // تحديد رقم العميل بناءً على إذا كان الطابور فارغ
-      int yourPlace = isQueueEmpty
-          ? data['Currentnumber'] // إذا كان الطابور فارغ
-          : data['NumberClients'] + 1; // إذا كان يحتوي على عملاء
+      int yourPlace =
+          isQueueEmpty ? data['Currentnumber'] : data['NumberClients'] + 1;
 
       trans.update(queueDoc, {
         'NumberClients': FieldValue.increment(1),
         'ActiveClients': FieldValue.increment(1),
       });
 
-      // إضافة العميل للطابور
       clientCollection.add({
         'name': username,
         'user_id': FirebaseAuth.instance.currentUser!.uid,
@@ -92,14 +86,19 @@ Future<void> JoinQeueu(String code_qeueu, BuildContext context) async {
       });
     });
 
-    await addQueuetoUser(queueID); // ✅ إضافة الطابور للمستخدم
-    Navigator.of(context).pop(); // ✅ إغلاق دائرة التحميل
+    // تحديث بيانات المستخدم
+    await addQueuetoUser(queueID);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("✅ Successfully joined the queue!")),
+    );
   } catch (e) {
-    Navigator.of(context).pop(); // ❗إغلاق دائرة التحميل في حالة الخطأ
     print("❌ خطأ أثناء الانضمام للطابور: $e");
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("An error occurred while joining the queue.")),
+    );
   }
 }
-
 
 Future<void> addQueuetoUser(String queueId) async {
   String userId = FirebaseAuth.instance.currentUser!.uid;
@@ -119,19 +118,30 @@ void scanQRCode(BuildContext context) {
   showDialog(
     context: context,
     builder: (context) => Dialog(
-      child: SizedBox(
-        height: 300,
-        child: MobileScanner(onDetect: (capture) {
-          final List<Barcode> barcodes = capture.barcodes;
-          for (final barcode in barcodes) {
-            if (barcode.rawValue != null) {
-              String scannedCode = barcode.rawValue!;
-              Navigator.pop(context);
-              JoinQeueu(scannedCode, context);
-              break;
-            }
-          }
-        }),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16), // 🟢 انحناء الزوايا
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16), // 🟢 قص الحواف الداخلية أيضًا
+        child: SizedBox(
+          height: 300,
+          width: 300,
+          child: MobileScanner(
+            onDetect: (capture) {
+              final List<Barcode> barcodes = capture.barcodes;
+              for (final barcode in barcodes) {
+                if (barcode.rawValue != null) {
+                  String scannedCode = barcode.rawValue!;
+                  Navigator.pop(context);
+                  Future.microtask(() {
+                    JoinQeueu(scannedCode, context);
+                  });
+                  break;
+                }
+              }
+            },
+          ),
+        ),
       ),
     ),
   );
