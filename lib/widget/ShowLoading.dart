@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 void showLoadingDialog(BuildContext context) {
   showDialog(
-    barrierDismissible: false, // لا يمكن الخروج منه بالنقر خارجًا
+    barrierDismissible: false,
     context: context,
+    useRootNavigator: true, // ✅ هذا هو الأهم
     builder: (BuildContext context) {
       return AlertDialog(
         backgroundColor: Colors.white,
